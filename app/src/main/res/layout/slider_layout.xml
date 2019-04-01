@@ -27,7 +27,11 @@
 
         <EditText
             android:id="@+id/text_field"
+            android:layout_marginTop="30dp"
+            android:padding="10dp"
+            android:background="@drawable/edit_text_background"
             android:layout_width="300dp"
-            android:layout_height="200dp" />
+            android:layout_height="200dp"
+            android:inputType="textMultiLine" />
 
 </LinearLayout>
