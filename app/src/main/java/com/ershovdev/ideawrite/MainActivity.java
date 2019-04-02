@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button next;
     private Button prev;
+    private Button send;
     private int currentPage;
     private Sheets sheets_service;
     private Drive drive_service;
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         next = findViewById(R.id.next_btn);
         prev = findViewById(R.id.prev_btn);
+        send = findViewById(R.id.ready_button);
 
         bar = findViewById(R.id.progressBar);
         bar.setVisibility(ProgressBar.INVISIBLE);
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         next.setOnClickListener(this);
         prev.setOnClickListener(this);
+        send.setOnClickListener(this);
 
         addDotsIndicator(0);
 
@@ -143,16 +146,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 prev.setVisibility(View.INVISIBLE);
 
             } else if (i == 4) {
-                next.setEnabled(true);
+                next.setEnabled(false);
                 prev.setEnabled(true);
-                next.setVisibility(View.VISIBLE);
-                next.setText("Отправить");
+                next.setVisibility(View.INVISIBLE);
             } else {
                 next.setEnabled(true);
                 prev.setEnabled(true);
                 prev.setVisibility(View.VISIBLE);
                 next.setVisibility(View.VISIBLE);
-                next.setText("Вперед");
             }
         }
 
@@ -165,19 +166,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.next_btn:
-                if (((Button) findViewById(R.id.next_btn)).getText().toString().equals("Отправить")) {
-                    try {
-                        loading(1);
-                        getResultsFromApi();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    slider.setCurrentItem(currentPage + 1);
-                }
+                slider.setCurrentItem(currentPage + 1);
                 break;
             case R.id.prev_btn:
                 slider.setCurrentItem(currentPage - 1);
+                break;
+            case R.id.ready_button:
+                try {
+                    loading(1);
+                    getResultsFromApi();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
                 break;
@@ -312,10 +312,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (state == 1) {
             next.setEnabled(false);
             prev.setEnabled(false);
-            //next.getBackground().setAlpha(64);
-            //prev.getBackground().setAlpha(64);
-            next.setAlpha(Float.parseFloat("0.25"));
-            prev.setAlpha(Float.parseFloat("0.25"));
+            send.setEnabled(false);
+
+            next.setAlpha(0.25f);
+            prev.setAlpha(0.25f);
+            send.setAlpha(0.25f);
 
             bar.setVisibility(ProgressBar.VISIBLE);
         }
@@ -323,11 +324,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (state == 0) {
             next.setEnabled(true);
             prev.setEnabled(true);
-            next.getBackground().setAlpha(255);
-            prev.getBackground().setAlpha(255);
+            send.setEnabled(true);
 
-            next.setAlpha(Float.parseFloat("1"));
-            prev.setAlpha(Float.parseFloat("1"));
+            next.setAlpha(1);
+            prev.setAlpha(1);
+            send.setAlpha(1);
 
             bar.setVisibility(ProgressBar.INVISIBLE);
         }
