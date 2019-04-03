@@ -308,6 +308,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return values;
     }
 
+    private void clear_inputs() {
+        for (int i = 0; i < 4; i++) {
+            ((EditText)slider.getChildAt(i).findViewById(R.id.text_field)).setText("");
+        }
+
+        ((EditText)((LinearLayout)slider.getChildAt(4)).getChildAt(2)).setText("");
+        ((EditText)((LinearLayout)slider.getChildAt(4)).getChildAt(4)).setText("");
+    }
+
     private void loading(int state) {
         if (state == 1) {
             next.setEnabled(false);
@@ -364,6 +373,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(AppendValuesResponse o) {
             super.onPostExecute(o);
             Toast.makeText(MainActivity.this, "Успешно добавлено", Toast.LENGTH_SHORT).show();
+            clear_inputs();
             loading(0);
         }
 
